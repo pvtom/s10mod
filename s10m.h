@@ -11,7 +11,7 @@
 #define MODBUS_HOST "e3dc"
 #define MODBUS_PORT "502"
 
-#define POLL_INTERVAL 7
+#define POLL_INTERVAL 1
 
 static void publish(char *topic, char *payload);
 static void publish_if_changed(int16_t *reg, int16_t *old, int r, char *topic);
