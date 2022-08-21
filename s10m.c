@@ -28,7 +28,7 @@ static void publish(char *topic, char *payload)
 
 static void publish_if_changed(int16_t *reg, int16_t *old, int r, char *topic)
 {
-        char sbuf[32];
+        char sbuf[BUFFER_SIZE];
         if (old[r] != reg[r]) {
                 old[r] = reg[r];
                 sprintf(sbuf, "%d", reg[r]);
@@ -39,20 +39,19 @@ static void publish_if_changed(int16_t *reg, int16_t *old, int r, char *topic)
 int main(int argc, char **argv)
 {
         int j, n;
-        int nb = 120;
         modbus_t *ctx = NULL;
         int rc;
-        char sbuf[32];
-        char manufacturer[32];
-        char model[32];
-        char serial_number[32];
-        char firmware[32];
-        char bstate[32];
-        char gstate[32];
+        char sbuf[BUFFER_SIZE];
+        char manufacturer[BUFFER_SIZE];
+        char model[BUFFER_SIZE];
+        char serial_number[BUFFER_SIZE];
+        char firmware[BUFFER_SIZE];
+        char bstate[BUFFER_SIZE];
+        char gstate[BUFFER_SIZE];
 
-        int16_t *regs = malloc(nb * sizeof(int16_t));
-        int16_t *olds = malloc(nb * sizeof(int16_t));
-        for (j = 0; j < nb; j++) olds[j] = 65535;
+        int16_t *regs = malloc(MODBUS_NR_REGS * sizeof(int16_t));
+        int16_t *olds = malloc(MODBUS_NR_REGS * sizeof(int16_t));
+        for (j = 0; j < MODBUS_NR_REGS; j++) olds[j] = 65535;
 
         strcpy(manufacturer, "");
         strcpy(model, "");
@@ -136,9 +135,9 @@ int main(int argc, char **argv)
                         if (!bg) fprintf(stderr,"E3DC_MODBUS: Connected successfully\n");
                 }
 
-                rc = modbus_read_registers(ctx, 0, nb, &regs[1]);
-                if (rc != nb) {
-                        if (!bg) fprintf(stderr,"E3DC_MODBUS: ERROR modbus_read_registers (%d/%d)\n", rc, nb);
+                rc = modbus_read_registers(ctx, 0, MODBUS_NR_REGS, &regs[1]);
+                if (rc != MODBUS_NR_REGS) {
+                        if (!bg) fprintf(stderr,"E3DC_MODBUS: ERROR modbus_read_registers (%d/%d)\n", rc, MODBUS_NR_REGS);
                         if (ctx) modbus_close(ctx);
                         if (ctx) modbus_free(ctx);
                         ctx = NULL;
