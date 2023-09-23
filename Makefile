@@ -9,4 +9,4 @@ $(PRG): clean
 	$(CC) -O3 s10m.c $(MODBUS_CFLAGS) -lmosquitto $(MODBUS_LIBS) -o $@
 
 clean:
-	-rm $(PRG)
+	-rm -f $(PRG)

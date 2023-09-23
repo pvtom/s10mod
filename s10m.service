@@ -1,0 +1,18 @@
+[Unit]
+Description=s10m service
+After=network.target
+After=systemd-user-sessions.service
+After=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/opt/s10m
+ExecStart=/opt/s10m/s10m
+ExecStop=pkill s10m
+Restart=on-failure
+RestartSec=30
+StartLimitInterval=350
+StartLimitBurst=10
+
+[Install]
+WantedBy=multi-user.target
