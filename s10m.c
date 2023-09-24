@@ -321,28 +321,28 @@ int main(int argc, char **argv) {
                 if ((regs[70] == 0) && (regs[83] == 0)) {
                     if (strcmp(bstate, "EMPTY")) {
                         publish("battery/state", "EMPTY");
-                        strcpy(bstate, "EMPTY");
+                        if (!force) strcpy(bstate, "EMPTY");
                     }
                 } else if ((regs[70] == 0) && (regs[83] == 100)) {
                     if (strcmp(bstate, "FULL")) {
                         publish("battery/state", "FULL");
-                        strcpy(bstate, "FULL");
+                        if (!force) strcpy(bstate, "FULL");
                     }
                 } else if (regs[70] == 0) {
                     if (strcmp(bstate, "PENDING")) {
                         publish("battery/state", "PENDING");
-                        strcpy(bstate, "PENDING");
+                        if (!force) strcpy(bstate, "PENDING");
                     }
                 } else {
                     if (strcmp(bstate, "CHARGING")) {
                         publish("battery/state", "CHARGING");
-                        strcpy(bstate, "CHARGING");
+                        if (!force) strcpy(bstate, "CHARGING");
                     }
                 }
             } else {
                 if (strcmp(bstate, "DISCHARGING")) {
                     publish("battery/state", "DISCHARGING");
-                    strcpy(bstate, "DISCHARGING");
+                    if (!force) strcpy(bstate, "DISCHARGING");
                 }
             }
         }
@@ -368,12 +368,12 @@ int main(int argc, char **argv) {
             if (regs[75] < 0) {
                 if (strcmp(gstate, "IN")) {
                     publish("grid/state", "IN");
-                    strcpy(gstate, "IN");
+                    if (!force) strcpy(gstate, "IN");
                 }
             } else {
                 if (strcmp(gstate, "OUT")) {
                     publish("grid/state", "OUT");
-                    strcpy(gstate, "OUT");
+                    if (!force) strcpy(gstate, "OUT");
                 }
             }
         }
